@@ -13,7 +13,7 @@ SRCS := permutation.cpp utils_mkl.cpp permutation_omp.cpp ../common/utils.cpp
 # object files
 OBJS := $(SRCS:.cpp=.o)
 # install paths
-INSTALL_PATH := $(HOME)
+INSTALL_PATH := $(PERMUT_PATH)
 # header files
 HEADERS := permutation.hpp
 

@@ -19,6 +19,7 @@ OBJS := $(CUDA_OBJS) $(CPP_OBJS)
 INSTALL_PATH := $(PERMUT_PATH)
 # header files
 HEADERS := permutation.cuh
+HEADERS2 := ../common/utils.hpp ../common/config.hpp
 
 .PHONY: all install uninstall clean
 
@@ -36,8 +37,11 @@ $(TARGET): $(OBJS)
 install:
 	mkdir -p $(INSTALL_PATH)/hpcPermut/lib
 	cp $(TARGET) $(INSTALL_PATH)/hpcPermut/lib
-	mkdir -p $(INSTALL_PATH)/hpcPermut/include
-	cp $(HEADERS) $(INSTALL_PATH)/hpcPermut/include
+	mkdir -p $(INSTALL_PATH)/hpcPermut/include/cuda
+	cp $(HEADERS) $(INSTALL_PATH)/hpcPermut/include/cuda
+
+	mkdir -p $(INSTALL_PATH)/hpcPermut/include/common
+	cp $(HEADERS2) $(INSTALL_PATH)/hpcPermut/include/common
 
 uninstall:
 	rm -rf $(INSTALL_PATH)/hpcPermut

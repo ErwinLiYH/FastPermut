@@ -28,6 +28,7 @@
    module load openmpi # load openmpi (if not in python env)
    module load intel-20.4/cc # load intel-compiler
    module load intel-20.4/cmkl # load MKL
+   export PERMUT_PATH=/path/to/library
    cd src/clib/mkl
    make
    make install
@@ -42,9 +43,11 @@
 4. Install python package
 
    ```bash
+   source /path/to/myvenv/bin/activate
    module load intel-20.4/cc
    module load intel-20.4/cmkl
    module load nvidia/nvhpc-nompi/22.11
+   export PERMUT_PATH=/path/to/library
    export CC=gcc
    export CXX=g++
    cd src/snp-annot-permutation

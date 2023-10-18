@@ -11,25 +11,21 @@ extensions = [
         "sapermut.permutation",  # Name of the resulting python extension
         sources=["src/sapermut/pypermutation.pyx"],  # Cython source file
         libraries=["permut"],  # Name of the C library without the 'lib' prefix and '.so' suffix
-        library_dirs=[os.path.expanduser("~/hpcPermut//lib"),
-                      "/work/m22oc/m22oc/s2303098/FYP/s2303098/src/clib/mkl",],  # Path to the directory of your .so file
+        library_dirs=[os.path.expanduser("~/hpcPermut/lib")],  # Path to the directory of your .so file
         language='c++',
         include_dirs=[numpy.get_include(),
-                      os.path.expanduser("~/hpcPermut//include"),
-                      "/work/m22oc/m22oc/s2303098/FYP/s2303098/src/clib/mkl"],
+                      os.path.expanduser("~/hpcPermut/include")],
         # Path to the directory of your header files
     ),
     Extension(
         "sapermut.permutation_cuda",  # Name of the resulting python extension
         sources=["src/sapermut/pypermutation_cuda.pyx"],  # Cython source file
         libraries=["permut_cuda"],  # Name of the C library without the 'lib' prefix and '.so' suffix
-        library_dirs=[os.path.expanduser("~/hpcPermut//lib"),
-                      "/work/m22oc/m22oc/s2303098/FYP/s2303098/src/clib/cuda"],  # Path to the directory of your .so file
+        library_dirs=[os.path.expanduser("~/hpcPermut/lib")],  # Path to the directory of your .so file
         language='c++',
         include_dirs=[numpy.get_include(),
-                      os.path.expanduser("~/hpcPermut//include"),
-                      "/mnt/lustre/indy2lfs/sw/nvidia/hpcsdk-2211/Linux_x86_64/22.11/cuda/11.8/targets/x86_64-linux/include",
-                      "/work/m22oc/m22oc/s2303098/FYP/s2303098/src/clib/cuda"],
+                      os.path.expanduser("~/hpcPermut/include"),
+                      "/mnt/lustre/indy2lfs/sw/nvidia/hpcsdk-2211/Linux_x86_64/22.11/cuda/11.8/targets/x86_64-linux/include"],
         # Path to the directory of your header files
     )
 ]

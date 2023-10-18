@@ -21,7 +21,9 @@
    export PERMUT_PATH=/path/to/library
    ```
 	If not set this, default install path is `~/hpcPermut`
-3. Install C library
+
+	Recommend to use `/work/user_name/` in Cirrus. For example: /work/m22oc/m22oc/s2303098, the library will be installed to /work/m22oc/m22oc/s2303098/hpcpermut
+4. Install C library
 
    ```bash
    # Install MKL version
@@ -40,7 +42,7 @@
    make install
    ```
 
-4. Install python package
+5. Install python package
 
    ```bash
    source /path/to/myvenv/bin/activate

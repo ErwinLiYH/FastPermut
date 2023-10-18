@@ -16,7 +16,7 @@ CUDA_OBJS := $(CUDA_SRCS:.cu=.o)
 CPP_OBJS := $(CPP_SRCS:.cpp=.o)
 OBJS := $(CUDA_OBJS) $(CPP_OBJS)
 # install paths
-INSTALL_PATH := $(HOME)
+INSTALL_PATH := $(PERMUT_PATH)
 # header files
 HEADERS := permutation.cuh
 

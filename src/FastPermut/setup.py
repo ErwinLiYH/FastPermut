@@ -32,7 +32,7 @@ extensions = []
 
 if compile_cpu:
     cpu_extension = Extension(
-                        "sapermut.permutation",  # Name of the resulting python extension
+                        "fastpermut.permutation",  # Name of the resulting python extension
                         sources=["src/sapermut/pypermutation.pyx"],  # Cython source file
                         libraries=["permut"],  # Name of the C library without the 'lib' prefix and '.so' suffix
                         library_dirs=[os.path.expanduser("~/hpcPermut/lib"),
@@ -46,7 +46,7 @@ if compile_cpu:
     extensions.append(cpu_extension)
 if compile_gpu:
     gpu_extension = Extension(
-                        "sapermut.permutation_cuda",  # Name of the resulting python extension
+                        "fastpermut.permutation_cuda",  # Name of the resulting python extension
                         sources=["src/sapermut/pypermutation_cuda.pyx"],  # Cython source file
                         libraries=["permut_cuda"],  # Name of the C library without the 'lib' prefix and '.so' suffix
                         library_dirs=[os.path.expanduser("~/hpcPermut/lib"),
@@ -61,7 +61,7 @@ if compile_gpu:
     extensions.append(gpu_extension)
 
 setup(
-    name="SNP-annot-permutation",
+    name="Fast permutation",
     version="0.0.5",
     package_dir={'': 'src'},
     packages=find_packages(where='src'),

@@ -4,25 +4,25 @@ import os
 import glob
 
 
-def load_csv_data(data_directory: str, annot_mat_row_or_column_based: str, encoding="utf-8"):
-    chromosome = np.genfromtxt(os.path.join(data_directory, "chromosome.csv"), delimiter=",", skip_header=1,
-                               dtype=np.single, encoding="utf-8")
-    location = np.genfromtxt(os.path.join(data_directory, "location.csv"), delimiter=",", skip_header=1,
-                             dtype=np.single, encoding="utf-8")
-    if annot_mat_row_or_column_based == "R":
-        # numpy.genfromtxt generate row-based array
-        annotation = np.genfromtxt(os.path.join(data_directory, "annotation.csv"), delimiter=",", skip_header=1,
-                                   dtype=np.single, encoding="utf-8")
-    elif annot_mat_row_or_column_based == "C":
-        # pandas.read_csv generate conlumn-based array
-        annotation = pd.read_csv(os.path.join(data_directory, "annotation.csv"), dtype=np.single,
-                                 encoding="utf-8").to_numpy()
-    else:
-        raise Exception('annot_mat_row_or_column_based should be "R"(row) or "C"(column)')
-    return chromosome, location, annotation
+# def load_csv_data(data_directory: str, annot_mat_row_or_column_based: str, encoding="utf-8"):
+#     chromosome = np.genfromtxt(os.path.join(data_directory, "chromosome.csv"), delimiter=",", skip_header=1,
+#                                dtype=np.single, encoding="utf-8")
+#     location = np.genfromtxt(os.path.join(data_directory, "location.csv"), delimiter=",", skip_header=1,
+#                              dtype=np.single, encoding="utf-8")
+#     if annot_mat_row_or_column_based == "R":
+#         # numpy.genfromtxt generate row-based array
+#         annotation = np.genfromtxt(os.path.join(data_directory, "annotation.csv"), delimiter=",", skip_header=1,
+#                                    dtype=np.single, encoding="utf-8")
+#     elif annot_mat_row_or_column_based == "C":
+#         # pandas.read_csv generate conlumn-based array
+#         annotation = pd.read_csv(os.path.join(data_directory, "annotation.csv"), dtype=np.single,
+#                                  encoding="utf-8").to_numpy()
+#     else:
+#         raise Exception('annot_mat_row_or_column_based should be "R"(row) or "C"(column)')
+#     return chromosome, location, annotation
 
 
-def load_csv_data_v2(data_directory: str, encoding="utf-8", order="F"):
+def load_tsv_data(data_directory: str, encoding="utf-8", order="F"):
     csv_files = glob.glob(os.path.join(data_directory, '*.tsv'))
     dfs = []
     for i, j in enumerate(csv_files):

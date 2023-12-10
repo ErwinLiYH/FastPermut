@@ -1,17 +1,17 @@
-# Install to General Linux/GNU
+# Install to General GNU/Linux
 
-In this instruction, we use Debian 12 x86_64 as exampe.
+In this instruction, we use Debian 12 x86_64 as example.
 
 1. Set up system environment
    1. MKL
-      In this project, we use Intel MKL as CPU version's calculation library.
-      Intel compilor `icpc` and MKL library `libmkl` are needed.
-      So, only recommend to use CPU version on Intel platform.
-      Please refer [Intel official instruction for Intel compiler](https://www.intel.com/content/www/us/en/developer/tools/oneapi/base-toolkit-download.html) to install Intel compiler and MKL library.
+      This project uses Intel MKL as CPU version's calculation library.
+      Intel compiler `icpc` and MKL library `libmkl` are needed.
+      So, only recommend using CPU version on the Intel platform.
+      Please refer [Intel official instruction for Intel compiler](https://www.intel.com/content/www/us/en/developer/tools/oneapi/base-toolkit-download.html) to install the Intel compiler and MKL library.
 
    2. OpenMPI
 
-      Except MKL, CPU version needs MPI for installing python package `mpi4py`.
+      Except for MKL, CPU version needs MPI for installing Python package `mpi4py`.
 
       ```bash
       apt update
@@ -20,7 +20,7 @@ In this instruction, we use Debian 12 x86_64 as exampe.
 
    3. CUDA
       GPU version is based on Nvidia CUDA.
-      You need a Nvidia GPU, then install Nvidia GPU driver and CUDA tool kit.
+      You need a Nvidia GPU, then install the Nvidia GPU driver and CUDA tool kit.
       Nvidia compiler `nvcc` and library `cuBLAS`, `cuSPARSE`, `cuRAND` are needed.
          1. Install driver, [More information](https://wiki.debian.org/NvidiaGraphicsDrivers)
          ```bash
@@ -38,22 +38,22 @@ In this instruction, we use Debian 12 x86_64 as exampe.
          nvhpc_2023_2311_Linux_x86_64_cuda_12.3/install
          ```
    4. Install C/C++ compiler
-      Used to compile Cython code when build and install python package
+      Used to compile Cython code when build and install Python package
       ```bash
       sudo apt-get install gcc g++
       ```
 
-2. Set up python environment
+2. Set up Python environment
 
    Install conda:
    ```bash
    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
    sh Miniconda3-latest-Linux-x86_64.sh
    ```
-   Restart terminal, then set up an virtual environment:
+   Restart the terminal, then set up a virtual environment:
    ```
    conda create -n fastpermut python=3.9
-   conda activate fastpermut # activate virture environment
+   conda activate fastpermut # activate virtual environment
    ```
 
    [More information](https://docs.conda.io/projects/miniconda/en/latest/) about conda.
@@ -63,7 +63,7 @@ In this instruction, we use Debian 12 x86_64 as exampe.
    ```bash
    export PERMUT_PATH=/path/to/library/parent # parent directory to library path
    ```
-	If not set this, default value is `~`
+	If not set, default value is `~`
 
 	For example: `~`, the library will be installed to `~/hpcPermut`
 
@@ -88,7 +88,7 @@ In this instruction, we use Debian 12 x86_64 as exampe.
 
    ```bash
    # set environment
-   conda activate fastpermut # activate virture environment(if not set)
+   conda activate fastpermut # activate virtual environment(if not set)
    export PERMUT_PATH=/path/to/library/parent # set C library path(if not set)
    export CC=gcc
    export CXX=g++

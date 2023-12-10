@@ -1,6 +1,6 @@
-# SNP-annotation permutation test
+# Fast permuation
 
-> Fast SNP-Annotation permutation test Python library, support both CPU and GPU
+> Binery SNP-Annotation permutation test Python library, support both CPU and GPU
 
 ## Instruction
 
@@ -8,6 +8,7 @@
 
 1. [Cirrus](./documentation/cirrus_install.md)
 2. Eddie
+3. [General Linux](./documentation/Linux_install.md)
 
 ### Usage
 

@@ -1,5 +1,9 @@
 # Install to Cirrus
 
+Cirrus is an HPC system designed to solve computational, simulation, modelling, and data science challenges.
+
+[More information](https://www.epcc.ed.ac.uk/hpc-services/cirrus) about Cirrus.
+
 1. Setup Python
 
    ```bash

@@ -1,17 +1,17 @@
 # Install to Cirrus
 
-1. Setup python
+1. Setup Python
 
    ```bash
    # set up python
    module load python/3.9.13 # load python
-   python -m venv --system-site-packages /path/to/myvenv # create virture environment
+   python -m venv --system-site-packages /path/to/myvenv # create virtual environment
    extend-venv-activate /path/to/myvenv
 
    source /path/to/myvenv/bin/activate # activate virture environment
    ```
 
-   After setup python environment, you only need "source" it when login to Cirrus again.
+   After setup the Python environment, you only need "source" it when login to Cirrus again.
 
    More information about Python env setup on Cirrus: [Cirrus Python documentation](https://cirrus.readthedocs.io/en/main/user-guide/python.html#installing-your-own-python-packages-with-pip)
 
@@ -20,7 +20,7 @@
    ```bash
    export PERMUT_PATH=/path/to/library/parent # parent directory to library path
    ```
-	If not set this, default value is `~`
+	If not set, the default value is `~`
 
 	Recommend to use `/work/user_name/` in Cirrus. For example: `/work/m22oc/m22oc/s2303098`, the library will be installed to `/work/m22oc/m22oc/s2303098/hpcPermut`
 4. Install C library

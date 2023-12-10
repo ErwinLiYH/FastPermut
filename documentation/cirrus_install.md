@@ -20,9 +20,9 @@
    ```bash
    export PERMUT_PATH=/path/to/library/parent # parent directory to library path
    ```
-	If not set this, default value is `~/hpcPermut`
+	If not set this, default value is `~`
 
-	Recommend to use `/work/user_name/` in Cirrus. For example: /work/m22oc/m22oc/s2303098, the library will be installed to /work/m22oc/m22oc/s2303098/hpcPermut
+	Recommend to use `/work/user_name/` in Cirrus. For example: `/work/m22oc/m22oc/s2303098`, the library will be installed to `/work/m22oc/m22oc/s2303098/hpcPermut`
 4. Install C library
 
    ```bash

@@ -9,3 +9,4 @@ src/clib/common/*.o
 src/clib/cuda/*.o
 *.out
 *.err
+.DS_Store

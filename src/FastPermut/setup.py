@@ -36,7 +36,9 @@ if compile_cpu:
                         sources=["src/sapermut/pypermutation.pyx"],  # Cython source file
                         libraries=["permut"],  # Name of the C library without the 'lib' prefix and '.so' suffix
                         library_dirs=[os.path.expanduser("~/hpcPermut/lib"),
-                                    os.path.join(os.environ.get('PERMUT_PATH'),"hpcPermut/lib")],  # Path to the directory of your .so file
+                                    os.path.join(os.environ.get('PERMUT_PATH'),"hpcPermut/lib")],  # Path to the directory of your .so file for build time
+                        runtime_library_dirs=[os.path.expanduser("~/hpcPermut/lib"),
+                                    os.path.join(os.environ.get('PERMUT_PATH'),"hpcPermut/lib")],  # # Path to the directory of your .so file for runtime
                         language='c++',
                         include_dirs=[numpy.get_include(),
                                     os.path.expanduser("~/hpcPermut/include"),
@@ -50,7 +52,9 @@ if compile_gpu:
                         sources=["src/sapermut/pypermutation_cuda.pyx"],  # Cython source file
                         libraries=["permut_cuda"],  # Name of the C library without the 'lib' prefix and '.so' suffix
                         library_dirs=[os.path.expanduser("~/hpcPermut/lib"),
-                                    os.path.join(os.environ.get('PERMUT_PATH'),"hpcPermut/lib")],  # Path to the directory of your .so file
+                                    os.path.join(os.environ.get('PERMUT_PATH'),"hpcPermut/lib")],  # Path to the directory of your .so file for build time
+                        runtime_library_dirs=[os.path.expanduser("~/hpcPermut/lib"),
+                                    os.path.join(os.environ.get('PERMUT_PATH'),"hpcPermut/lib")],  # Path to the directory of your .so file for run time
                         language='c++',
                         include_dirs=[numpy.get_include(),
                                     os.path.expanduser("~/hpcPermut/include"),

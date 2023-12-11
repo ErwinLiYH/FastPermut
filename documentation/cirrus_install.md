@@ -1,8 +1,8 @@
 # Install to Cirrus
 
-Cirrus is an HPC system designed to solve computational, simulation, modelling, and data science challenges.
+[Cirrus](https://www.cirrus.ac.uk/ is an HPC system located at the University of Edinburgh designed to solve computational, simulation, modelling, and data science challenges.
 
-[More information](https://www.epcc.ed.ac.uk/hpc-services/cirrus) about Cirrus.
+The following instructions describe how to setup `FastPermut` on this system.
 
 1. Setup Python
 

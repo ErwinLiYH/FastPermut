@@ -12,22 +12,22 @@ The following instructions describe how to setup `FastPermut` on this system.
    python -m venv --system-site-packages /path/to/myvenv # create virtual environment
    extend-venv-activate /path/to/myvenv
 
-   source /path/to/myvenv/bin/activate # activate virture environment
+   source /path/to/myvenv/bin/activate # activate virtual environment
    ```
 
-   After setup the Python environment, you only need "source" it when login to Cirrus again.
+   After the Python environment has been setup, you only need "source" the virtual environment when you login to Cirrus again.
 
-   More information about Python env setup on Cirrus: [Cirrus Python documentation](https://cirrus.readthedocs.io/en/main/user-guide/python.html#installing-your-own-python-packages-with-pip)
+   More information about Python env setup on Cirrus: [Cirrus Python documentation](https://cirrus.readthedocs.io/en/main/user-guide/python.html#installing-your-own-python-packages-with-pip).
 
-2. Set C library and header files path
+2. Set the C library and header files path
 
    ```bash
    export PERMUT_PATH=/path/to/library/parent # parent directory to library path
    ```
-	If not set, the default value is `~`
+	If it is not set, the default value will be  `~` (your home environment).
 
-	Recommend to use `/work/user_name/` in Cirrus. For example: `/work/m22oc/m22oc/s2303098`, the library will be installed to `/work/m22oc/m22oc/s2303098/hpcPermut`
-4. Install C library
+	We recommend you use `/work/user_name/` in Cirrus. For example: `/work/m22oc/m22oc/s2303098`, the library will be installed to `/work/m22oc/m22oc/s2303098/hpcPermut`.
+4. Install the C library
 
    ```bash
    # set environment
@@ -49,7 +49,7 @@ The following instructions describe how to setup `FastPermut` on this system.
    make install
    ```
 
-5. Install python package
+5. Install the Python package
 
    ```bash
    # set environment

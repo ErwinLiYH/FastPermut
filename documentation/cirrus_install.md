@@ -1,6 +1,6 @@
 # Install to Cirrus
 
-[Cirrus](https://www.cirrus.ac.uk/ is an HPC system located at the University of Edinburgh designed to solve computational, simulation, modelling, and data science challenges.
+[Cirrus](https://www.cirrus.ac.uk/) is an HPC system located at the University of Edinburgh designed to solve computational, simulation, modelling, and data science challenges.
 
 The following instructions describe how to setup `FastPermut` on this system.
 

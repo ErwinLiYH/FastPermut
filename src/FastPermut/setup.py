@@ -5,8 +5,6 @@ import numpy
 import sys
 import os
 
-compile_cpu_in = "cpu" in sys.argv
-compile_gpu_in = "gpu" in sys.argv
 
 if os.environ.get("INSTALL_SELECTOR")==None or os.environ.get("INSTALL_SELECTOR")=="all":
     compile_cpu = True
@@ -22,11 +20,6 @@ elif os.environ.get("INSTALL_SELECTOR")=="gpu":
     print("Only install GPU version")
 else:
     raise Exception("INSTALL_SELECTOR should be in [\"all\", \"cpu\", \"gpu\"], or do not define it for \"all\". Got %s."%os.environ.get("INSTALL_SELECTOR"))
-
-if compile_cpu_in:
-    sys.argv.remove("cpu")
-if compile_gpu_in:
-    sys.argv.remove("gpu")
 
 extensions = []
 

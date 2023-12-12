@@ -22,16 +22,19 @@ import glob
 #     return chromosome, location, annotation
 
 
-def load_tsv_data(data_directory: str, encoding="utf-8", order="F"):
-    csv_files = glob.glob(os.path.join(data_directory, '*.tsv'))
-    dfs = []
-    for i, j in enumerate(csv_files):
-        df = pd.read_csv(j, dtype=np.single, encoding=encoding, delimiter="\t")
-        df["chromosome"] = i+1
-        dfs.append(df)
-    dfs[0].head()
-    combined_df = pd.concat(dfs)
-    return combined_df.iloc[:,-1].to_numpy(), combined_df.iloc[:,1].to_numpy(), np.asarray(combined_df.iloc[:,2:-1].to_numpy(), order=order)
+def load_from_file(data_path: str, encoding="utf-8", order="F", delimiter=",", glob_str="*.csv"):
+    if os.path.isdir(data_path):
+        csv_files = glob.glob(os.path.join(data_path, glob_str))
+        dfs = []
+        for i, j in enumerate(csv_files):
+            df = pd.read_csv(j, dtype=np.single, encoding=encoding, delimiter=delimiter)
+            df["chromosome"] = i+1
+            dfs.append(df)
+        combined_df = pd.concat(dfs)
+        return combined_df.iloc[:,-1].to_numpy(), combined_df.iloc[:,1].to_numpy(), np.asarray(combined_df.iloc[:,2:-1].to_numpy(), order=order)
+    elif os.path.isfile(data_path):
+        df = pd.read_csv(j, dtype=np.single, encoding=encoding, delimiter=delimiter)
+        return df.iloc[:,0].to_numpy(), df.iloc[:,1].to_numpy(), np.asarray(df.iloc[:,2:-1].to_numpy(), order=order)
 
 def load_RNs(path:str, N_chros:int, N_times:int):
     data = np.fromfile(path, dtype=np.int32)

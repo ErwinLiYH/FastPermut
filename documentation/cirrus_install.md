@@ -55,25 +55,27 @@ The following instructions describe how to setup `FastPermut` on this system.
    # set environment
    source /path/to/myvenv/bin/activate # activate virture environment(if not set)
    export PERMUT_PATH=/path/to/library/parent # set C library path(if not set)
-   export CC=gcc
-   export CXX=g++
-   cd src/snp-annot-permutation
+   cd src/FastPermut/
 
    # install both MKL(CPU) and CUDA(GPU) versions
    module load intel-20.4/cc # load intel-compiler(if not set)
    module load intel-20.4/cmkl # load MKL(if not set)
    module load nvidia/nvhpc-nompi/22.11 # load CUDA(if not set)
    export INSTALL_SELECTOR=all # optional, if not set INSTALL_SELECTOR, it will install both by default
-   pip install .
 
    # install only MKL(CPU) version
    module load intel-20.4/cc # load intel-compiler(if not set)
    module load intel-20.4/cmkl # load MKL(if not set)
    export INSTALL_SELECTOR=cpu
-   pip install .
 
    # install only CUDA(GPU) version
    module load nvidia/nvhpc-nompi/22.11 # load CUDA(if not set)
    export INSTALL_SELECTOR=gpu
+
+   # set compilor for Cython
+   export CC=gcc
+   export CXX=g++
+
+   # Install
    pip install .
    ```

@@ -3,17 +3,9 @@
 import numpy as np
 import pandas as pd
 from . cimport pypermutation
+from . import timing_decorator
 import time
 
-
-def timing_decorator(func):
-    def wrapper(*args, **kwargs):
-        start_time = time.time()  # record the start time
-        result = func(*args, **kwargs)  # call the original function
-        end_time = time.time()  # record the end time
-        print(f"Function {func.__name__} took {end_time - start_time} seconds to run.", flush=True)
-        return result
-    return wrapper
 
 @timing_decorator
 def permutation_mkl(chromosome_array: np.ndarray, location_array: np.ndarray, annotation_array: np.ndarray, columns: list | None, permutation_times: int, to_sparse=True, omp=True, seed=None) -> pd.DataFrame:

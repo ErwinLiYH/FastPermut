@@ -3,17 +3,8 @@
 import numpy as np
 import pandas as pd
 from . cimport pypermutation_cuda
-import time
+from . import timing_decorator
 
-
-def timing_decorator(func):
-    def wrapper(*args, **kwargs):
-        start_time = time.time()  # record the start time
-        result = func(*args, **kwargs)  # call the original function
-        end_time = time.time()  # record the end time
-        print(f"Function {func.__name__} took {end_time - start_time} seconds to run.", flush=True)
-        return result
-    return wrapper
 
 def init_cuda():
     status = pypermutation_cuda.init_cuda()

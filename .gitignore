@@ -2,11 +2,8 @@ __pycache__/
 .ipynb_checkpoints/
 .idea/
 .vscode/
-libpermut.so
-libpermut_cuda.so
-src/clib/mkl/*.o
-src/clib/common/*.o
-src/clib/cuda/*.o
+*.so
+*.o
 *.out
 *.err
 .DS_Store

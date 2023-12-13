@@ -9,3 +9,7 @@
 #define ANNOT_MAT_ROW_OR_COLUMN_BASED 0
 
 #define IF_STORE_RNS 0
+
+#define VERSION_MAJOR 1
+#define VERSION_MINOR 0
+#define VERSION_PATCH 0

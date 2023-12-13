@@ -22,6 +22,20 @@ else:
 
 extensions = []
 
+extensions.append(Extension(
+                        "fastpermut.c_conf",  # Name of the resulting python extension
+                        sources=["src/fastpermut/pyconf.pyx"],  # Cython source file
+                        libraries=["permut_utils"],  # Name of the C library without the 'lib' prefix and '.so' suffix
+                        library_dirs=[os.path.expanduser("~/hpcPermut/lib"),
+                                    os.path.join(os.environ.get('PERMUT_PATH'),"hpcPermut/lib")],  # Path to the directory of your .so file for build time
+                        runtime_library_dirs=[os.path.expanduser("~/hpcPermut/lib"),
+                                    os.path.join(os.environ.get('PERMUT_PATH'),"hpcPermut/lib")],  # # Path to the directory of your .so file for runtime
+                        language='c++',
+                        include_dirs=[os.path.expanduser("~/hpcPermut/include"),
+                                    os.path.join(os.environ.get('PERMUT_PATH'),"hpcPermut/include/common")],
+                        # Path to the directory of your header files
+                    ))
+
 if compile_cpu:
     cpu_extension = Extension(
                         "fastpermut.permutation",  # Name of the resulting python extension

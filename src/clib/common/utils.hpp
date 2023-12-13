@@ -2,6 +2,8 @@
 #include <iostream>
 #include <fstream>
 
+void get_version(int* major, int* minor, int* patch);
+
 void test_order(float* arr, int size);
 
 void print_location_vecs(float* arr, int N_chros, int* N_SNPs);

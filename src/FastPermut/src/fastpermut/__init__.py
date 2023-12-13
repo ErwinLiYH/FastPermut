@@ -2,6 +2,8 @@ from .correctness import *
 from .load_data import *
 from .VEP import *
 
+from .c_conf import *
+
 import time
 from functools import wraps
 

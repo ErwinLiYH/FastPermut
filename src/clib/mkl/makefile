@@ -5,11 +5,11 @@
 # compiler
 CC := icpc
 # compilation flags
-CFLAGS := -Wall -Wextra -shared -fPIC -O3 -mkl -lmpi -qopenmp
+CFLAGS := -Wall -Wextra -shared -fPIC -O3 -mkl -lmpi -qopenmp -L../common -lpermut_utils
 # the target shared library
 TARGET := libpermut.so
 # source files
-SRCS := permutation.cpp utils_mkl.cpp permutation_omp.cpp ../common/utils.cpp
+SRCS := permutation.cpp utils_mkl.cpp permutation_omp.cpp
 # object files
 OBJS := $(SRCS:.cpp=.o)
 # install paths
@@ -20,7 +20,6 @@ else
 endif
 # header files
 HEADERS := permutation.hpp
-HEADERS2 := ../common/utils.hpp ../common/config.hpp
 
 .PHONY: all install uninstall clean
 
@@ -38,11 +37,9 @@ install:
 	mkdir -p $(INSTALL_PATH)/hpcPermut/include/mkl
 	cp $(HEADERS) $(INSTALL_PATH)/hpcPermut/include/mkl
 
-	mkdir -p $(INSTALL_PATH)/hpcPermut/include/common
-	cp $(HEADERS2) $(INSTALL_PATH)/hpcPermut/include/common
-
 uninstall:
-	rm -rf $(INSTALL_PATH)/hpcPermut
+	rm -rf $(INSTALL_PATH)/hpcPermut/lib/$(TARGET)
+	rm -rf $(INSTALL_PATH)/hpcPermut/include/mkl/$(HEADERS)
 
 clean:
 	rm -f $(OBJS) $(TARGET) *.optrpt

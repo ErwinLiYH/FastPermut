@@ -73,18 +73,25 @@ In this instruction, we use Debian 12 x86_64 as example.
    # set environment
    export PERMUT_PATH=/path/to/library/parent # set C library path(if not set)
 
-   # Install MKL version
-   cd src/clib/mkl
+   # Install both MKL and CUDA version
+   cd src/clib
    make
    make install
 
-   # Install CUDA version
+   # Or install only MKL version
+   cd src/clib/mkl
+   make cpu
+   make install_cpu
+
+   # Or install only CUDA version
    cd src/clib/cuda
-   make
-   make install
+   make gpu
+   make install_gpu
    ```
 
 5. Install python package
+
+   The version of Python package must be same as the version of C library installed. For exmple, if only CPU version of C library installed, only CPU version of Python package can be installed.
 
    ```bash
    # set environment
@@ -94,15 +101,15 @@ In this instruction, we use Debian 12 x86_64 as example.
    export CXX=g++
    cd src/snp-annot-permutation
 
-   # install both MKL(CPU) and CUDA(GPU) versions
+   # Install both MKL(CPU) and CUDA(GPU) versions
    export INSTALL_SELECTOR=all # optional, if not set INSTALL_SELECTOR, it will install both by default
    pip install .
 
-   # install only MKL(CPU) version
+   # Or install only MKL(CPU) version
    export INSTALL_SELECTOR=cpu
    pip install .
 
-   # install only CUDA(GPU) version
+   # Or install only CUDA(GPU) version
    export INSTALL_SELECTOR=gpu
    pip install .
    ```

@@ -17,7 +17,7 @@ The following instructions describe how to setup `FastPermut` on this system.
 
    After the Python environment has been setup, you only need "source" the virtual environment when you login to Cirrus again.
 
-   More information about Python env setup on Cirrus: [Cirrus Python documentation](https://cirrus.readthedocs.io/en/main/user-guide/python.html#installing-your-own-python-packages-with-pip).
+   More information about Python env setup on Cirrus: [Cirrus Python documentation](https://docs.cirrus.ac.uk/user-guide/python/).
 
 2. Set the C library and header files path
 
@@ -33,23 +33,35 @@ The following instructions describe how to setup `FastPermut` on this system.
    # set environment
    export PERMUT_PATH=/path/to/library/parent # set C library path(if not set)
 
-   # Install MKL version
+   # Install both MKL and CUDA versions
    module load openmpi # load openmpi (if not in python env)
    # in Cirrus, python/3.9.13 already included openmpi
    module load intel-20.4/cc # load intel-compiler
    module load intel-20.4/cmkl # load MKL
-   cd src/clib/mkl
+   module load nvidia/nvhpc-nompi/22.11 # load CUDA
+   cd src/clib
    make
    make install
 
-   # Install CUDA version
+   # Or install only MKL version
+   module load openmpi # load openmpi (if not in python env)
+   # in Cirrus, python/3.9.13 already included openmpi
+   module load intel-20.4/cc # load intel-compiler
+   module load intel-20.4/cmkl # load MKL
+   cd src/clib
+   make cpu
+   make install_cpu
+
+   # Or install only CUDA version
    module load nvidia/nvhpc-nompi/22.11 # load CUDA
-   cd src/clib/cuda
-   make
-   make install
+   cd src/clib
+   make gpu
+   make install_gpu
    ```
 
 5. Install the Python package
+
+   The version of Python package must be same as the version of C library installed. For exmple, if only CPU version of C library installed, only CPU version of Python package can be installed.
 
    ```bash
    # set environment
@@ -57,18 +69,18 @@ The following instructions describe how to setup `FastPermut` on this system.
    export PERMUT_PATH=/path/to/library/parent # set C library path(if not set)
    cd src/FastPermut/
 
-   # install both MKL(CPU) and CUDA(GPU) versions
+   # Install both MKL(CPU) and CUDA(GPU) versions
    module load intel-20.4/cc # load intel-compiler(if not set)
    module load intel-20.4/cmkl # load MKL(if not set)
    module load nvidia/nvhpc-nompi/22.11 # load CUDA(if not set)
    export INSTALL_SELECTOR=all # optional, if not set INSTALL_SELECTOR, it will install both by default
 
-   # install only MKL(CPU) version
+   # Or install only MKL(CPU) version
    module load intel-20.4/cc # load intel-compiler(if not set)
    module load intel-20.4/cmkl # load MKL(if not set)
    export INSTALL_SELECTOR=cpu
 
-   # install only CUDA(GPU) version
+   # Or install only CUDA(GPU) version
    module load nvidia/nvhpc-nompi/22.11 # load CUDA(if not set)
    export INSTALL_SELECTOR=gpu
 

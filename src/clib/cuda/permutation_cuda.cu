@@ -1,6 +1,6 @@
 #include "permutation.cuh"
 
-void cuda_permut(unsigned long long* seed_p, float* location_vecs, int* N_SNPs, int N_chros, float* annot_mats, int N_annots, int N_times, float* count_mats){
+void cuda_permut(unsigned long long* seed_p, float* location_vecs, int* N_SNPs, int N_chros, float* annot_mats, int N_annots, int N_times, float* count_mats, int* RNsCol){
     //>>> timer------------------
     #if IF_TIMING==1
     struct timeval start0, end0;
@@ -25,20 +25,19 @@ void cuda_permut(unsigned long long* seed_p, float* location_vecs, int* N_SNPs, 
         }
     }
 
-    //>>> store the random values in IF_STORE_RNS mode----
-    #if IF_STORE_RNS==1
-    float* RNs = new float[N_chros*N_times];
-    CHECK_CUDA( cudaMemcpy(RNs, d_RNs, N_chros*N_times*sizeof(float), cudaMemcpyDeviceToHost) )
-    std::ofstream outfile("cuda_permut_RNs", std::ios::binary);
-    for (int i=0; i<N_chros; ++i){
-        for (int j=0; j<N_times; ++j){
-            int RN = std::floor(*(RNs+N_times*i+j)*N_SNPs[i]);
-            outfile.write(reinterpret_cast<char*>(&RN), sizeof(int));
+    //>>> store the random values ------------------------
+    if (RNsCol!=NULL){
+        float* RNs = new float[N_chros*N_times];
+        int RN;
+        CHECK_CUDA( cudaMemcpy(RNs, d_RNs, N_chros*N_times*sizeof(float), cudaMemcpyDeviceToHost) )
+        for (int i=0; i<N_chros; ++i){
+            for (int j=0; j<N_times; ++j){
+                RN = std::floor(*(RNs+N_times*i+j)*N_SNPs[i]);
+                *(RNsCol+N_times*i+j) = RN;
+            }
         }
+        delete[] RNs;
     }
-    outfile.close();
-    delete[] RNs;
-    #endif
     //<<<-------------------------------------------------
 
     //----------------------------------------------------------------------------
@@ -168,7 +167,7 @@ void cuda_permut(unsigned long long* seed_p, float* location_vecs, int* N_SNPs, 
     //<<<------------------------
 }
 
-void cuda_permut_sparse(unsigned long long* seed_p, float* location_vecs, int* N_SNPs, int N_chros, float* annot_mats, int N_annots, int N_times, float* count_mats){
+void cuda_permut_sparse(unsigned long long* seed_p, float* location_vecs, int* N_SNPs, int N_chros, float* annot_mats, int N_annots, int N_times, float* count_mats, int* RNsCol){
     //>>> timer------------------
     #if IF_TIMING==1
     struct timeval start0, end0;
@@ -193,20 +192,19 @@ void cuda_permut_sparse(unsigned long long* seed_p, float* location_vecs, int* N
         }
     }
 
-    //>>> store the random values in IF_STORE_RNS mode----
-    #if IF_STORE_RNS==1
-    float* RNs = new float[N_chros*N_times];
-    CHECK_CUDA( cudaMemcpy(RNs, d_RNs, N_chros*N_times*sizeof(float), cudaMemcpyDeviceToHost) )
-    std::ofstream outfile("cuda_permut_sparse_RNs", std::ios::binary);
-    for (int i=0; i<N_chros; ++i){
-        for (int j=0; j<N_times; ++j){
-            int RN = std::floor(*(RNs+N_times*i+j)*N_SNPs[i]);
-            outfile.write(reinterpret_cast<char*>(&RN), sizeof(int));
+    //>>> store the random values ------------------------
+    if (RNsCol!=NULL){
+        float* RNs = new float[N_chros*N_times];
+        int RN;
+        CHECK_CUDA( cudaMemcpy(RNs, d_RNs, N_chros*N_times*sizeof(float), cudaMemcpyDeviceToHost) )
+        for (int i=0; i<N_chros; ++i){
+            for (int j=0; j<N_times; ++j){
+                RN = std::floor(*(RNs+N_times*i+j)*N_SNPs[i]);
+                *(RNsCol+N_times*i+j) = RN;
+            }
         }
+        delete[] RNs;
     }
-    outfile.close();
-    delete[] RNs;
-    #endif
     //<<<-------------------------------------------------
 
     //----------------------------------------------------------------------------

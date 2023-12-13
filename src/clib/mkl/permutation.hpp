@@ -17,13 +17,13 @@ void gen_sparse_mat(float* annot_mats, MKL_INT NCols, MKL_INT NRows, int lda,flo
 
 void gen_random_mkl(int* r, int N, int min, int max, unsigned int seed);
 
-void cmkl_permut(unsigned int* seed_p, float* location_vecs, int* N_SNPs, int N_chros, float* annot_mats, int N_annots, int N_times, float* count_mats);
+void cmkl_permut(unsigned int* seed_p, float* location_vecs, int* N_SNPs, int N_chros, float* annot_mats, int N_annots, int N_times, float* count_mats, int* RNsCol);
 
-void cmkl_permut_omp(unsigned int* seed_p, float* location_vecs, int* N_SNPs, int N_chros, float* annot_mats, int N_annots, int N_times, float* count_mats);
+void cmkl_permut_omp(unsigned int* seed_p, float* location_vecs, int* N_SNPs, int N_chros, float* annot_mats, int N_annots, int N_times, float* count_mats, int* RNsCol);
 
-void cmkl_permut_sparse(unsigned int* seed_p, float* location_vecs, int* N_SNPs, int N_chros, float* annot_mats, int N_annots, int N_times, float* count_mats);
+void cmkl_permut_sparse(unsigned int* seed_p, float* location_vecs, int* N_SNPs, int N_chros, float* annot_mats, int N_annots, int N_times, float* count_mats, int* RNsCol);
 
-void cmkl_permut_sparse_omp(unsigned int* seed_p, float* location_vecs, int* N_SNPs, int N_chros, float* annot_mats, int N_annots, int N_times, float* count_mats);
+void cmkl_permut_sparse_omp(unsigned int* seed_p, float* location_vecs, int* N_SNPs, int N_chros, float* annot_mats, int N_annots, int N_times, float* count_mats, int* RNsCol);
 
 template <typename InputIterator, typename OutputIterator>
 void rotate_to(InputIterator first, InputIterator middle, InputIterator last, OutputIterator destination) {

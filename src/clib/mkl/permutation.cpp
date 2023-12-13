@@ -1,6 +1,6 @@
 #include "permutation.hpp"
 
-void cmkl_permut(unsigned int* seed_p, float* location_vecs, int* N_SNPs, int N_chros, float* annot_mats, int N_annots, int N_times, float* count_mats){
+void cmkl_permut(unsigned int* seed_p, float* location_vecs, int* N_SNPs, int N_chros, float* annot_mats, int N_annots, int N_times, float* count_mats, int* RNsCol){
     //>>> timer------------------
     #if IF_TIMING==1
     struct timeval start0;
@@ -24,16 +24,14 @@ void cmkl_permut(unsigned int* seed_p, float* location_vecs, int* N_SNPs, int N_
         }
     }
 
-    //>>> store the random values in IF_STORE_RNS mode----
-    #if IF_STORE_RNS==1
-    std::ofstream outRNs("cmkl_permut_RNs", std::ios::binary);
-    for (int i=0; i<N_chros; ++i){
-        for (int j=0; j<N_times; ++j){
-            outRNs.write(reinterpret_cast<char*>(&(RNs[i][j])), sizeof(int));
+    //>>> store the random values-------------------------
+    if (RNsCol!=NULL){
+        for (int i=0; i<N_chros; ++i){
+            for (int j=0; j<N_times; ++j){
+                *(RNsCol+N_times*i+j) = RNs[i][j];
+            }
         }
     }
-    outRNs.close();
-    #endif
     //<<<-------------------------------------------------
 
     //----------------------------------------------------------------------------
@@ -118,7 +116,7 @@ void cmkl_permut(unsigned int* seed_p, float* location_vecs, int* N_SNPs, int N_
     //<<<------------------------
 }
 
-void cmkl_permut_sparse(unsigned int* seed_p, float* location_vecs, int* N_SNPs, int N_chros, float* annot_mats, int N_annots, int N_times, float* count_mats){
+void cmkl_permut_sparse(unsigned int* seed_p, float* location_vecs, int* N_SNPs, int N_chros, float* annot_mats, int N_annots, int N_times, float* count_mats, int* RNsCol){
     //>>> timer------------------
     #if IF_TIMING==1
     struct timeval start0;
@@ -146,16 +144,14 @@ void cmkl_permut_sparse(unsigned int* seed_p, float* location_vecs, int* N_SNPs,
         }
     }
 
-    //>>> store the random values in IF_STORE_RNS mode----
-    #if IF_STORE_RNS==1
-    std::ofstream outRNs("cmkl_permut_sparse_RNs", std::ios::binary);
-    for (int i=0; i<N_chros; ++i){
-        for (int j=0; j<N_times; ++j){
-            outRNs.write(reinterpret_cast<char*>(&(RNs[i][j])), sizeof(int));
+    //>>> store the random values-------------------------
+    if (RNsCol!=NULL){
+        for (int i=0; i<N_chros; ++i){
+            for (int j=0; j<N_times; ++j){
+                *(RNsCol+N_times*i+j) = RNs[i][j];
+            }
         }
     }
-    outRNs.close();
-    #endif
     //<<<-------------------------------------------------
 
     //----------------------------------------------------------------------------

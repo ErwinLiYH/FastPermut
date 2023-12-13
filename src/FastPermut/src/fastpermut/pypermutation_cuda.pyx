@@ -12,7 +12,7 @@ def init_cuda():
         print("CUDA initialized", flush=True)
 
 @timing_decorator
-def permutation_cuda(chromosome_array: np.ndarray, location_array: np.ndarray, annotation_array: np.ndarray, columns: list | None, permutation_times: int, to_sparse=True, seed=None) -> pd.DataFrame:
+def permutation_cuda(chromosome_array: np.ndarray, location_array: np.ndarray, annotation_array: np.ndarray, columns: list | None, permutation_times: int, to_sparse=True, seed=None, record_random_number=False) -> pd.DataFrame:
     _, N_SNPs_py = np.unique(chromosome_array, return_counts=True)
     cdef int N_times = permutation_times
     cdef int N_chros = len(N_SNPs_py)
@@ -24,6 +24,11 @@ def permutation_cuda(chromosome_array: np.ndarray, location_array: np.ndarray, a
     cdef float[:,:] annot_mats = annotation_array
     cdef float[:,:] count_mats = np.zeros((N_chros*N_times, N_annots), dtype=np.single)
 
+    if record_random_number:
+        cdef int[:] RN_Column = np.zeros(N_chros*N_times, dtype=np.intc)
+    else:
+        cdef int* RN_Column = NULL
+
     cdef unsigned long long seed_c
     cdef unsigned long long* seed_c_p = &seed_c
     if seed==None:
@@ -32,8 +37,11 @@ def permutation_cuda(chromosome_array: np.ndarray, location_array: np.ndarray, a
         seed_c = seed
 
     if to_sparse:
-        pypermutation_cuda.cuda_permut_sparse(seed_c_p, &location_vecs[0], &N_SNPs[0], N_chros, &annot_mats[0, 0], N_annots, N_times, &count_mats[0, 0])
+        pypermutation_cuda.cuda_permut_sparse(seed_c_p, &location_vecs[0], &N_SNPs[0], N_chros, &annot_mats[0, 0], N_annots, N_times, &count_mats[0, 0], &RN_Column[0])
     else:
-        pypermutation_cuda.cuda_permut(seed_c_p, &location_vecs[0], &N_SNPs[0], N_chros, &annot_mats[0, 0], N_annots, N_times, &count_mats[0, 0])
+        pypermutation_cuda.cuda_permut(seed_c_p, &location_vecs[0], &N_SNPs[0], N_chros, &annot_mats[0, 0], N_annots, N_times, &count_mats[0, 0], &RN_Column[0])
 
-    return pd.DataFrame(np.asarray(count_mats), columns=columns)
+    result = pd.DataFrame(np.asarray(count_mats), columns=columns)
+    if record_random_number:
+        result["RN"] = np.asarray(RN_Column)
+    return result

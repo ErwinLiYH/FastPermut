@@ -14,11 +14,11 @@ void gen_random_cuda(float* r, int N, unsigned long long seed);
 
 int init_cuda();
 
-void cuda_permut(unsigned long long* seed_p, float* location_vecs, int* N_SNPs, int N_chros, float* annot_mats, int N_annots, int N_times, float* count_mats);
+void cuda_permut(unsigned long long* seed_p, float* location_vecs, int* N_SNPs, int N_chros, float* annot_mats, int N_annots, int N_times, float* count_mats, int* RNsCol);
 
 void gen_sparse_mat(float* annot_mats, int NCols, int NRows, int lda, float** values, int** indexes, int** pointers, int* size_nnz, int* size_p);
 
-void cuda_permut_sparse(unsigned long long* seed_p, float* location_vecs, int* N_SNPs, int N_chros, float* annot_mats, int N_annots, int N_times, float* count_mats);
+void cuda_permut_sparse(unsigned long long* seed_p, float* location_vecs, int* N_SNPs, int N_chros, float* annot_mats, int N_annots, int N_times, float* count_mats, int* RNsCol);
 
 #if IF_TEST==1
 #define CHECK_CUDA(func){                                                      \

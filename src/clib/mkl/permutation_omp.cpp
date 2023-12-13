@@ -1,6 +1,6 @@
 #include "permutation.hpp"
 
-void cmkl_permut_omp(unsigned int* seed_p, float* location_vecs, int* N_SNPs, int N_chros, float* annot_mats, int N_annots, int N_times, float* count_mats){
+void cmkl_permut_omp(unsigned int* seed_p, float* location_vecs, int* N_SNPs, int N_chros, float* annot_mats, int N_annots, int N_times, float* count_mats, int* RNsCol){
     //detect whether used in MPI------------------
     int flag;
     int rank=0;
@@ -35,18 +35,14 @@ void cmkl_permut_omp(unsigned int* seed_p, float* location_vecs, int* N_SNPs, in
         }
     }
 
-    //>>> store the random values in IF_STORE_RNS mode----
-    #if IF_STORE_RNS==1
-    std::ostringstream RNsfilename;
-    RNsfilename << "cmkl_permut_omp_RNs_" << rank;
-    std::ofstream outRNs(RNsfilename.str(), std::ios::binary);
-    for (int i=0; i<N_chros; ++i){
-        for (int j=0; j<N_times; ++j){
-            outRNs.write(reinterpret_cast<char*>(&(RNs[i][j])), sizeof(int));
+    //>>> store the random values-------------------------
+    if (RNsCol!=NULL){
+        for (int i=0; i<N_chros; ++i){
+            for (int j=0; j<N_times; ++j){
+                *(RNsCol+N_times*i+j) = RNs[i][j];
+            }
         }
     }
-    outRNs.close();
-    #endif
     //<<<-------------------------------------------------
 
     //----------------------------------------------------------------------------
@@ -163,7 +159,7 @@ void cmkl_permut_omp(unsigned int* seed_p, float* location_vecs, int* N_SNPs, in
     //<<<------------------------
 }
 
-void cmkl_permut_sparse_omp(unsigned int* seed_p, float* location_vecs, int* N_SNPs, int N_chros, float* annot_mats, int N_annots, int N_times, float* count_mats){
+void cmkl_permut_sparse_omp(unsigned int* seed_p, float* location_vecs, int* N_SNPs, int N_chros, float* annot_mats, int N_annots, int N_times, float* count_mats, int* RNsCol){
     //detect whether used in MPI------------------
     int flag;
     int rank=0;
@@ -202,18 +198,14 @@ void cmkl_permut_sparse_omp(unsigned int* seed_p, float* location_vecs, int* N_S
         }
     }
 
-    //>>> store the random values in IF_STORE_RNS mode----
-    #if IF_STORE_RNS==1
-    std::ostringstream RNsfilename;
-    RNsfilename << "cmkl_permut_omp_sparse_RNs_" << rank;
-    std::ofstream outRNs(RNsfilename.str(), std::ios::binary);
-    for (int i=0; i<N_chros; ++i){
-        for (int j=0; j<N_times; ++j){
-            outRNs.write(reinterpret_cast<char*>(&(RNs[i][j])), sizeof(int));
+    //>>> store the random values-------------------------
+    if (RNsCol!=NULL){
+        for (int i=0; i<N_chros; ++i){
+            for (int j=0; j<N_times; ++j){
+                *(RNsCol+N_times*i+j) = RNs[i][j];
+            }
         }
     }
-    outRNs.close();
-    #endif
     //<<<-------------------------------------------------
 
     //-----------------------------------------------------------------------------

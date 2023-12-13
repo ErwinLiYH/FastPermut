@@ -6,6 +6,8 @@ from . cimport pypermutation
 from . import timing_decorator
 import time
 
+from libc.stdlib cimport malloc, free
+
 
 @timing_decorator
 def permutation_mkl(chromosome_array: np.ndarray, location_array: np.ndarray, annotation_array: np.ndarray, columns: list | None, permutation_times: int, to_sparse=True, omp=True, seed=None, record_random_number=False) -> pd.DataFrame:
@@ -20,10 +22,11 @@ def permutation_mkl(chromosome_array: np.ndarray, location_array: np.ndarray, an
     cdef float[:,:] annot_mats = annotation_array
     cdef float[:,:] count_mats = np.zeros((N_chros*N_times, N_annots), dtype=np.single)
 
+    cdef int* RN_Column
     if record_random_number:
-        cdef int[:] RN_Column = np.zeros(N_chros*N_times, dtype=np.intc)
+        RN_Column = <int*>malloc(N_chros * N_times * sizeof(int))
     else:
-        cdef int* RN_Column = NULL
+        RN_Column = NULL
 
     cdef unsigned int seed_c
     cdef unsigned int* seed_c_p = &seed_c
@@ -34,19 +37,29 @@ def permutation_mkl(chromosome_array: np.ndarray, location_array: np.ndarray, an
 
     if to_sparse:
         if omp:
-            pypermutation.cmkl_permut_sparse_omp(seed_c_p, &location_vecs[0], &N_SNPs[0], N_chros, &annot_mats[0,0], N_annots, N_times, &count_mats[0,0], &RN_Column[0])
+            pypermutation.cmkl_permut_sparse_omp(seed_c_p, &location_vecs[0], &N_SNPs[0], N_chros, &annot_mats[0,0], N_annots, N_times, &count_mats[0,0], RN_Column)
         else:
-            pypermutation.cmkl_permut_sparse(seed_c_p, &location_vecs[0], &N_SNPs[0], N_chros, &annot_mats[0,0], N_annots, N_times, &count_mats[0,0], &RN_Column[0])
+            pypermutation.cmkl_permut_sparse(seed_c_p, &location_vecs[0], &N_SNPs[0], N_chros, &annot_mats[0,0], N_annots, N_times, &count_mats[0,0], RN_Column)
     else:
         if omp:
-            pypermutation.cmkl_permut_omp(seed_c_p, &location_vecs[0], &N_SNPs[0], N_chros, &annot_mats[0,0], N_annots, N_times, &count_mats[0,0], &RN_Column[0])
+            pypermutation.cmkl_permut_omp(seed_c_p, &location_vecs[0], &N_SNPs[0], N_chros, &annot_mats[0,0], N_annots, N_times, &count_mats[0,0], RN_Column)
         else:
-            pypermutation.cmkl_permut(seed_c_p, &location_vecs[0], &N_SNPs[0], N_chros, &annot_mats[0,0], N_annots, N_times, &count_mats[0,0], &RN_Column[0])
+            pypermutation.cmkl_permut(seed_c_p, &location_vecs[0], &N_SNPs[0], N_chros, &annot_mats[0,0], N_annots, N_times, &count_mats[0,0], RN_Column)
 
     result = pd.DataFrame(np.asarray(count_mats), columns=columns)
+    cdef int[:] mv
     if record_random_number:
-        res["RN"] = np.asarray(RN_Column)
-    res.to_csv("%s_R%d.csv"%(name, rank), index=False)
+        # create memoryview from pointer
+        mv = <int[:N_chros * N_times]>RN_Column
+        # create numpy array from memoryview
+        arr = np.asarray(mv, dtype=np.intc)
+        # create a copy
+        arr = arr.copy()
+
+        # release memory of RN_Column
+        free(RN_Column)
+
+        result["RN"] = arr
     return result
 
 def permutation_mkl_mpi(chromosome_array: np.ndarray, location_array: np.ndarray, annotation_array: np.ndarray, columns: list | None, permutation_times: int, to_sparse=True, name="test", seed=None, record_random_number=False):
@@ -85,10 +98,11 @@ def permutation_mkl_mpi(chromosome_array: np.ndarray, location_array: np.ndarray
     cdef float[:,:] annot_mats = annotation_array
     cdef float[:,:] count_mats = np.zeros((N_chros*N_times, N_annots), dtype=np.single)
 
+    cdef int* RN_Column
     if record_random_number:
-        cdef int[:] RN_Column = np.zeros(N_chros*N_times, dtype=np.intc)
+        RN_Column = <int*>malloc(N_chros * N_times * sizeof(int))
     else:
-        cdef int* RN_Column = NULL
+        RN_Column = NULL
 
     cdef unsigned int seed_c
     cdef unsigned int* seed_c_p = &seed_c
@@ -98,16 +112,27 @@ def permutation_mkl_mpi(chromosome_array: np.ndarray, location_array: np.ndarray
         seed_c = seed
 
     if to_sparse:
-        pypermutation.cmkl_permut_sparse_omp(seed_c_p, &location_vecs[0], &N_SNPs[0], N_chros, &annot_mats[0,0], N_annots, N_times, &count_mats[0,0], &RN_Column[0])
+        pypermutation.cmkl_permut_sparse_omp(seed_c_p, &location_vecs[0], &N_SNPs[0], N_chros, &annot_mats[0,0], N_annots, N_times, &count_mats[0,0], RN_Column)
     else:
-        pypermutation.cmkl_permut_omp(seed_c_p, &location_vecs[0], &N_SNPs[0], N_chros, &annot_mats[0,0], N_annots, N_times, &count_mats[0,0], &RN_Column[0])
+        pypermutation.cmkl_permut_omp(seed_c_p, &location_vecs[0], &N_SNPs[0], N_chros, &annot_mats[0,0], N_annots, N_times, &count_mats[0,0], RN_Column)
 
     end_time = time.time()
     print(f"Function permutation_mkl_mpi rank {rank} took {end_time - start_time} seconds to run.", flush=True)
 
     res = pd.DataFrame(np.asarray(count_mats), columns=columns)
+    cdef int[:] mv
     if record_random_number:
-        res["RN"] = np.asarray(RN_Column)
+        # create memoryview from pointer
+        mv = <int[:N_chros * N_times]>RN_Column
+        # create numpy array from memoryview
+        arr = np.asarray(mv, dtype=np.intc)
+        # create a copy
+        arr = arr.copy()
+
+        # release memory of RN_Column
+        free(RN_Column)
+
+        res["RN"] = arr
     res.to_csv("%s_R%d.csv"%(name, rank), index=False)
 
     MPI.Finalize()
